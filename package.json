@@ -1,0 +1,8 @@
+{
+  "name": "phytonfree-portal",
+  "private": true,
+  "description": "PhytonFree — portal de estudos em Python",
+  "scripts": {
+    "start": "npx --yes serve -l 4173"
+  }
+}

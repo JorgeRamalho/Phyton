@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadastro e acesso — Área do aluno PhytonFree</title>
+  <meta name="description" content="Formulário de cadastro da área do aluno PhytonFree: nome, e-mail, nível inicial, objetivo de estudo e meta semanal.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://phytonfree.local/pages/cadastro.html">
+  <meta property="og:title" content="Cadastro PhytonFree">
+  <meta property="og:description" content="Crie sua área do aluno e comece a trilha de Python.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="theme-color" content="#10182A">
+  <link rel="icon" href="../assets/brand/python-logo.svg" type="image/svg+xml">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=IBM+Plex+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;1,8..60,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/foundation/tokens.css">
+  <link rel="stylesheet" href="../css/foundation/base.css">
+  <link rel="stylesheet" href="../css/layout/layout.css">
+  <link rel="stylesheet" href="../css/components/components.css">
+  <link rel="stylesheet" href="../css/pages/pages.css">
+</head>
+<body data-page="cadastro" data-root="../">
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <div id="app-header"></div>
+  <div id="status-bar"></div>
+  <main id="conteudo" class="wrap">
+    <header class="section-head" style="padding-top:2rem">
+      <div>
+        <p class="kicker">Área do aluno</p>
+        <h1>Cadastro da trilha</h1>
+        <p class="lede">O formulário grava nome, nível, objetivo e meta semanal. A barra de status passa a exibir essas variáveis em todas as páginas.</p>
+      </div>
+    </header>
+    <section class="card form-shell" aria-labelledby="acesso">
+      <h2 id="acesso" class="sr-only">Acesso</h2>
+      <div class="form-tabs" role="tablist">
+        <button class="btn btn-gold" type="button" data-tab="cadastro" aria-selected="true">Cadastrar</button>
+        <button class="btn btn-ghost" type="button" data-tab="login" aria-selected="false">Já tenho conta</button>
+      </div>
+      <p id="form-notice" class="notice" hidden></p>
+      <form id="form-cadastro" novalidate>
+        <div class="form-grid">
+          <label class="field"><span>Nome completo</span>
+            <input name="name" required autocomplete="name" placeholder="Ada Lovelace">
+            <small>Como deve aparecer na barra de status.</small>
+          </label>
+          <label class="field"><span>E-mail</span>
+            <input name="email" type="email" required autocomplete="email" placeholder="ada@escola.dev">
+          </label>
+          <label class="field"><span>Senha</span>
+            <input name="password" type="password" required minlength="6" autocomplete="new-password">
+          </label>
+          <label class="field"><span>Confirmar senha</span>
+            <input name="confirm" type="password" required minlength="6" autocomplete="new-password">
+          </label>
+          <label class="field"><span>Nível inicial</span>
+            <select name="levelStart" required>
+              <option value="iniciante">Iniciante — nunca programei em Python</option>
+              <option value="intermediario">Intermediário — já uso funções e listas</option>
+              <option value="avancado">Avançado — quero qualidade e projeto</option>
+            </select>
+          </label>
+          <label class="field"><span>Horas por semana</span>
+            <input name="hours" type="number" min="1" max="40" value="6" required>
+          </label>
+          <label class="field full"><span>Objetivo da trilha</span>
+            <textarea name="goal" required maxlength="180" placeholder="Ex.: concluir o projeto final e revisar fundamentos com exercícios."></textarea>
+            <small>Esta frase vira a variável Objetivo na barra de status.</small>
+          </label>
+          <label class="field full choice">
+            <input name="terms" type="checkbox" required>
+            <span>Aceito gravar progresso apenas neste navegador (demonstração local, sem servidor).</span>
+          </label>
+        </div>
+        <p><button class="btn" type="submit">Criar área do aluno</button></p>
+      </form>
+      <form id="form-login" hidden>
+        <div class="form-grid">
+          <label class="field"><span>E-mail</span>
+            <input name="email" type="email" required autocomplete="username">
+          </label>
+          <label class="field"><span>Senha</span>
+            <input name="password" type="password" required autocomplete="current-password">
+          </label>
+        </div>
+        <p><button class="btn" type="submit">Entrar</button></p>
+      </form>
+      <p><button class="btn btn-ghost" type="button" id="btn-guest">Explorar como Ada (visitante)</button></p>
+      <p class="caption">Contas ficam só no seu aparelho. Não use senha real de outros serviços.</p>
+    </section>
+  </main>
+  <div id="app-footer"></div>
+  <script src="../js/core/paths.js"></script>
+  <script src="../js/core/data.js"></script>
+  <script src="../js/core/store.js"></script>
+  <script src="../js/core/shell.js"></script>
+  <script src="../js/pages/cadastro.js"></script>
+</body>
+</html>

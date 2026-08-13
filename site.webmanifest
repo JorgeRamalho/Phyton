@@ -1,0 +1,13 @@
+{
+  "name": "PhytonFree — Portal de estudos em Python",
+  "short_name": "PhytonFree",
+  "lang": "pt-BR",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#10182A",
+  "theme_color": "#10182A",
+  "description": "Área do aluno, exercícios, curva de aprendizado e sala de aula em Python.",
+  "icons": [
+    { "src": "assets/brand/python-logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
