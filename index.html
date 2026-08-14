@@ -54,16 +54,24 @@
         </p>
         <p class="caption">Iniciante → intermediário → avançado → projeto final. Progresso gravado neste navegador.</p>
       </div>
-      <aside class="hero-panel" aria-label="Prévia da curva">
-        <p class="kicker">Curva viva</p>
-        <h2>Quatro órbitas de domínio</h2>
-        <div class="orbit-board">
-          <article class="card"><p class="badge">01</p><h3>Fundar</h3><p class="legend">Tipos, nomes e o primeiro programa.</p></article>
-          <article class="card"><p class="badge">02</p><h3>Encadear</h3><p class="legend">Fluxo, coleções e funções.</p></article>
-          <article class="card"><p class="badge badge-gold">03</p><h3>Modelar</h3><p class="legend">Objetos, arquivos e erros.</p></article>
-          <article class="card"><p class="badge badge-mint">04</p><h3>Concluir</h3><p class="legend">Qualidade, testes e projeto.</p></article>
+      <aside class="hero-mark" aria-label="Símbolo oficial do Python">
+        <div class="hero-mark-stage">
+          <span class="hero-mark-aura" aria-hidden="true"></span>
+          <span class="hero-mark-ring" aria-hidden="true"></span>
+          <span class="hero-mark-ring is-gold" aria-hidden="true"></span>
+          <img class="hero-mark-logo" src="assets/brand/python-logo.svg" alt="Logo oficial do Python" width="220" height="220">
         </div>
       </aside>
+    </section>
+
+    <section class="orbit-strip" aria-labelledby="orbitas">
+      <h2 id="orbitas" class="sr-only">Quatro órbitas de domínio</h2>
+      <div class="orbit-board">
+        <article class="card"><p class="badge">01</p><h3>Fundar</h3><p class="legend">Tipos, nomes e o primeiro programa.</p></article>
+        <article class="card"><p class="badge">02</p><h3>Encadear</h3><p class="legend">Fluxo, coleções e funções.</p></article>
+        <article class="card"><p class="badge badge-gold">03</p><h3>Modelar</h3><p class="legend">Objetos, arquivos e erros.</p></article>
+        <article class="card"><p class="badge badge-mint">04</p><h3>Concluir</h3><p class="legend">Qualidade, testes e projeto.</p></article>
+      </div>
     </section>
 
     <section class="section" aria-labelledby="conceito">
@@ -75,10 +83,6 @@
         <p class="legend">A interface mostra o estado. A trilha mostra o caminho. O exercício confirma o traço.</p>
       </div>
       <div class="card-grid">
-        <article class="card">
-          <h3>Área do aluno</h3>
-          <p>Painel com meta, XP, anel de progresso e o próximo passo — aula ou atividade — sem perder o contexto da trilha.</p>
-        </article>
         <article class="card">
           <h3>Curva de aprendizado</h3>
           <p>Um gráfico em SVG acompanha o percentual global. Cada módulo acende um nó: da base à conclusão.</p>
@@ -92,6 +96,17 @@
           <p>Mapa da linguagem: sintaxe, tipos, fluxo, funções, objetos e ligações para a referência oficial em docs.python.org.</p>
           <p><a class="btn" href="pages/docs.html">Abrir docs</a></p>
         </article>
+      </div>
+    </section>
+
+    <section class="log-screen" aria-label="Simulação de log de programação">
+      <div class="log-window">
+        <header class="log-chrome">
+          <span class="log-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <p class="log-title">phytonfree.log — python 3.12</p>
+          <span class="log-meta">loop</span>
+        </header>
+        <div class="log-viewport" id="live-log" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -202,11 +217,198 @@
         </li>
       </ol>
     </section>
+
+    <section class="loop-section" aria-labelledby="loop-title">
+      <header class="section-head">
+        <div>
+          <p class="kicker">Primeiro laço</p>
+          <h2 id="loop-title">Quatro gestos. O Python responde.</h2>
+        </div>
+        <p class="legend">Você não precisa saber nada. Em cada gesto: a linha já está pronta → aperte Rodar → leia o que apareceu → avance.</p>
+      </header>
+
+      <ol class="loop-stations" id="loop-stations">
+        <li data-step="0" class="is-on"><span>1</span> Pedir</li>
+        <li data-step="1"><span>2</span> Guardar</li>
+        <li data-step="2"><span>3</span> Usar</li>
+        <li data-step="3"><span>4</span> Repetir</li>
+      </ol>
+      <p class="loop-cycle" aria-hidden="true">↻ depois de repetir, o laço volta: você pede de novo, agora sabendo guardar</p>
+
+      <div class="loop-stage">
+        <p class="loop-now" id="loop-now">Gesto 1 de 4 · Pedir</p>
+        <p class="loop-ask" id="loop-ask">Faça a palavra olá aparecer na tela.</p>
+        <p class="loop-why" id="loop-why">print é um pedido: mostre isto. As aspas são o recado.</p>
+
+        <button class="loop-line" type="button" id="loop-fill">
+          <span>Linha deste gesto — clique se apagar</span>
+          <code id="loop-code">print("olá")</code>
+        </button>
+
+        <label class="field" for="repl-in"><span>Sua linha</span>
+          <textarea id="repl-in" rows="3" autocomplete="off" spellcheck="false" autocapitalize="off"></textarea>
+        </label>
+
+        <button class="btn loop-run" type="button" id="loop-run">Rodar esta linha</button>
+
+        <div class="loop-screen">
+          <p class="kicker">O Python mostrou</p>
+          <pre id="repl-out">Ainda nada. Aperte o botão amarelo acima.</pre>
+        </div>
+
+        <p class="loop-ok" id="loop-ok" hidden></p>
+        <p class="loop-help" id="loop-help" hidden></p>
+        <p class="loop-actions">
+          <button class="btn btn-gold" type="button" id="loop-next" hidden>Próximo gesto →</button>
+          <button class="btn btn-ghost" type="button" id="loop-reset" hidden>Recomeçar o laço</button>
+        </p>
+      </div>
+    </section>
+
+    <section class="enroll-section" id="matricula" aria-labelledby="matricula-titulo">
+      <header class="section-head">
+        <div>
+          <p class="kicker">Matrícula</p>
+          <h2 id="matricula-titulo">Inscreva-se no curso de Python</h2>
+        </div>
+        <p class="legend">Dados pessoais, contato, nível da trilha e acesso. A vaga fica gravada neste navegador e abre a área do aluno.</p>
+      </header>
+      <form class="card enroll-shell" id="form-matricula" novalidate>
+        <p id="matricula-notice" class="notice" hidden></p>
+
+        <fieldset class="enroll-block">
+          <legend>Dados pessoais</legend>
+          <div class="form-grid">
+            <label class="field full"><span>Nome completo</span>
+              <input name="name" required autocomplete="name" placeholder="Ada Lovelace">
+            </label>
+            <label class="field"><span>Data de nascimento</span>
+              <input name="birth" type="date" required autocomplete="bday" min="1940-01-01" max="2013-12-31">
+            </label>
+            <label class="field"><span>Cidade</span>
+              <input name="city" required autocomplete="address-level2" placeholder="Recife">
+            </label>
+            <label class="field"><span>Estado</span>
+              <select name="state" required autocomplete="address-level1">
+                <option value="">Selecione a UF</option>
+                <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+                <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+                <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+                <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+                <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+                <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+                <option>SP</option><option>SE</option><option>TO</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="enroll-block">
+          <legend>Contato</legend>
+          <div class="form-grid">
+            <label class="field"><span>E-mail</span>
+              <input name="email" type="email" required autocomplete="email" placeholder="ada@escola.dev">
+            </label>
+            <label class="field"><span>Telefone / WhatsApp</span>
+              <input name="phone" type="tel" required autocomplete="tel" inputmode="tel" placeholder="(81) 99999-0000">
+              <small>Com DDD. Usado só nesta demonstração local.</small>
+            </label>
+            <label class="field"><span>Como prefere o contato</span>
+              <select name="contact" required>
+                <option value="email">E-mail</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="ambos">E-mail e WhatsApp</option>
+              </select>
+            </label>
+            <label class="field"><span>Como conheceu o PhytonFree</span>
+              <select name="source" required>
+                <option value="">Selecione</option>
+                <option value="busca">Busca na internet</option>
+                <option value="indicacao">Indicação</option>
+                <option value="redes">Redes sociais</option>
+                <option value="escola">Escola ou curso</option>
+                <option value="outro">Outro</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="enroll-block">
+          <legend>Sobre o curso</legend>
+          <div class="form-grid">
+            <label class="field"><span>Nível da trilha</span>
+              <select name="levelStart" required>
+                <option value="iniciante">Iniciante — nunca programei em Python</option>
+                <option value="intermediario">Intermediário — já uso funções e listas</option>
+                <option value="avancado">Avançado — quero qualidade e projeto</option>
+              </select>
+            </label>
+            <label class="field"><span>Experiência com programação</span>
+              <select name="experience" required>
+                <option value="nunca">Nunca programei</option>
+                <option value="outra">Já usei outra linguagem</option>
+                <option value="python-basico">Python básico</option>
+                <option value="python-pratico">Já faço scripts em Python</option>
+              </select>
+            </label>
+            <label class="field"><span>Horas por semana</span>
+              <input name="hours" type="number" min="1" max="40" value="6" required>
+            </label>
+            <label class="field"><span>Turno preferido</span>
+              <select name="schedule" required>
+                <option value="flexivel">Flexível</option>
+                <option value="manha">Manhã</option>
+                <option value="tarde">Tarde</option>
+                <option value="noite">Noite</option>
+              </select>
+            </label>
+            <label class="field full"><span>Objetivo da matrícula</span>
+              <textarea name="goal" required maxlength="240" placeholder="Ex.: concluir a trilha, entregar o projeto final e usar Python no trabalho."></textarea>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="enroll-block">
+          <legend>Acesso à área do aluno</legend>
+          <div class="form-grid">
+            <label class="field"><span>Senha</span>
+              <input name="password" type="password" required minlength="6" autocomplete="new-password">
+              <small>Mínimo de 6 caracteres. Não use senha de outros serviços.</small>
+            </label>
+            <label class="field"><span>Confirmar senha</span>
+              <input name="confirm" type="password" required minlength="6" autocomplete="new-password">
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="enroll-block">
+          <legend>Confirmação</legend>
+          <div class="form-grid">
+            <label class="field full choice">
+              <input name="terms" type="checkbox" required>
+              <span>Declaro que os dados são verdadeiros e aceito gravar a matrícula apenas neste navegador (demonstração local, sem servidor).</span>
+            </label>
+            <label class="field full choice">
+              <input name="newsletter" type="checkbox">
+              <span>Quero receber avisos da trilha neste aparelho.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <p class="enroll-actions">
+          <button class="btn" type="submit">Confirmar matrícula</button>
+        </p>
+        <p class="caption">Curso gratuito neste portal. A matrícula cria sua área do aluno e posiciona a trilha no nível escolhido.</p>
+      </form>
+    </section>
   </main>
   <div id="app-footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
   <script src="js/core/paths.js"></script>
   <script src="js/core/data.js"></script>
   <script src="js/core/store.js"></script>
   <script src="js/core/shell.js"></script>
+  <script src="js/pages/home.js"></script>
 </body>
 </html>

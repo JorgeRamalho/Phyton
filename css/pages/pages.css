@@ -2,27 +2,73 @@
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: 2.5rem;
-  align-items: start;
+  align-items: center;
   padding: 3.4rem 0 2.2rem;
   min-width: 0;
 }
 
-.hero-panel {
+.hero-mark {
+  display: grid;
+  place-items: center;
   min-width: 0;
-  overflow: hidden;
-  padding: 1.4rem;
-  border-radius: var(--radius-xl);
+}
+
+.hero-mark-stage {
+  position: relative;
+  width: min(22rem, 100%);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.hero-mark-aura {
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
   background:
-    linear-gradient(160deg, color-mix(in oklch, var(--py-blue) 18%, transparent), transparent 42%),
-    var(--grad-panel);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-lg);
+    radial-gradient(circle at 38% 32%, color-mix(in oklch, var(--py-blue) 55%, transparent), transparent 58%),
+    radial-gradient(circle at 68% 70%, color-mix(in oklch, var(--py-gold) 48%, transparent), transparent 60%);
+  filter: blur(22px);
+  animation: py-pulse 4.8s ease-in-out infinite;
+}
+
+.hero-mark-ring {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1px solid color-mix(in oklch, var(--py-blue) 45%, transparent);
+  box-shadow:
+    0 0 24px color-mix(in oklch, var(--py-blue) 28%, transparent),
+    inset 0 0 24px color-mix(in oklch, var(--py-blue) 16%, transparent);
+  animation: py-spin 22s linear infinite;
+}
+
+.hero-mark-ring.is-gold {
+  inset: 16%;
+  border-color: color-mix(in oklch, var(--py-gold) 50%, transparent);
+  box-shadow:
+    0 0 18px color-mix(in oklch, var(--py-gold) 26%, transparent),
+    inset 0 0 16px color-mix(in oklch, var(--py-gold) 12%, transparent);
+  animation: py-spin 16s linear infinite reverse;
+}
+
+.hero-mark-logo {
+  position: relative;
+  z-index: 2;
+  width: 58%;
+  height: auto;
+  filter: drop-shadow(0 18px 28px color-mix(in oklch, black 42%, transparent));
+  animation: py-float 5.6s ease-in-out infinite;
+}
+
+.orbit-strip {
+  padding: 0 0 2.2rem;
 }
 
 .orbit-board {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 0.8rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
   min-width: 0;
 }
 
@@ -33,6 +79,191 @@
 
 .orbit-board .legend {
   overflow-wrap: anywhere;
+}
+
+@keyframes py-float {
+  0%,
+  100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-1.15rem) rotate(3deg); }
+}
+
+@keyframes py-pulse {
+  0%,
+  100% { opacity: 0.72; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes py-spin {
+  to { transform: rotate(360deg); }
+}
+
+.log-screen {
+  padding: 0 0 1.4rem;
+}
+
+.log-window {
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, color-mix(in oklch, white 6%, transparent), transparent 28%),
+    color-mix(in oklch, black 42%, var(--ink-1));
+  box-shadow: var(--shadow-lg);
+}
+
+.log-chrome {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in oklch, white 5%, var(--ink-2));
+}
+
+.log-dots {
+  display: flex;
+  gap: 0.38rem;
+}
+
+.log-dots i {
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: var(--coral);
+}
+
+.log-dots i:nth-child(2) {
+  background: var(--py-gold);
+}
+
+.log-dots i:nth-child(3) {
+  background: var(--mint);
+}
+
+.log-title,
+.log-meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.log-title {
+  color: var(--muted);
+  text-align: center;
+}
+
+.log-meta {
+  color: var(--mint);
+}
+
+.log-meta::before {
+  content: "";
+  display: inline-block;
+  width: 0.45rem;
+  height: 0.45rem;
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 8px var(--mint);
+  animation: log-pulse 1.6s ease-in-out infinite;
+}
+
+.log-viewport {
+  position: relative;
+  height: 23.5rem;
+  overflow: hidden;
+  padding: 1.05rem 1.15rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.78rem, 0.72rem + 0.25vw, 0.9rem);
+  line-height: 1.65;
+  background:
+    linear-gradient(180deg, color-mix(in oklch, black 18%, transparent), transparent 24%),
+    color-mix(in oklch, black 55%, var(--ink-0));
+}
+
+.log-viewport::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    color-mix(in oklch, black 18%, transparent) 2px 3px
+  );
+  opacity: 0.35;
+}
+
+.log-line {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  min-width: 0;
+  color: color-mix(in oklch, var(--paper) 92%, var(--py-gold));
+}
+
+.log-gutter {
+  color: color-mix(in oklch, var(--faint) 70%, transparent);
+  user-select: none;
+}
+
+.log-body {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.log-line.is-shell .log-gutter {
+  color: var(--py-gold);
+}
+
+.log-line.is-repl .log-gutter {
+  color: var(--py-blue);
+}
+
+.log-line.is-cont .log-gutter {
+  color: var(--violet);
+}
+
+.log-line.is-out .log-gutter,
+.log-line.is-out .log-body {
+  color: var(--muted);
+}
+
+.log-line.is-ok .log-body {
+  color: var(--mint);
+}
+
+.log-line.is-err .log-body {
+  color: var(--coral);
+}
+
+.log-line.is-info .log-body {
+  color: var(--faint);
+  font-style: italic;
+}
+
+.log-cursor {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1em;
+  margin-left: 0.12ch;
+  vertical-align: -0.12em;
+  background: var(--py-gold);
+  animation: log-blink 1s step-end infinite;
+}
+
+@keyframes log-blink {
+  50% { opacity: 0; }
+}
+
+@keyframes log-pulse {
+  50% { opacity: 0.35; }
 }
 
 .section {
@@ -153,6 +384,202 @@
 
 .form-grid .full {
   grid-column: 1 / -1;
+}
+
+.loop-section {
+  padding: 2.2rem 0 0.4rem;
+}
+
+.loop-stations {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0 0 0.55rem;
+  padding: 0;
+  list-style: none;
+}
+
+.loop-stations li {
+  display: grid;
+  justify-items: center;
+  gap: 0.2rem;
+  padding: 0.85rem 0.5rem 0.75rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: color-mix(in oklch, white 3%, transparent);
+  opacity: 0.42;
+}
+
+.loop-stations li span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+}
+
+.loop-stations li.is-on {
+  opacity: 1;
+  border-color: color-mix(in oklch, var(--py-gold) 58%, white);
+  background: color-mix(in oklch, var(--py-gold) 12%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--py-gold) 28%, transparent);
+}
+
+.loop-stations li.is-done {
+  opacity: 1;
+  border-color: color-mix(in oklch, var(--mint) 48%, transparent);
+  background: color-mix(in oklch, var(--mint) 10%, transparent);
+}
+
+.loop-cycle {
+  margin: 0 0 1.15rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--faint);
+}
+
+.loop-stage {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: 1.5rem 1.4rem 1.35rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(160deg, color-mix(in oklch, var(--py-blue) 14%, transparent), transparent 46%),
+    var(--grad-panel);
+  box-shadow: var(--shadow-card);
+}
+
+.loop-now {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--py-gold);
+}
+
+.loop-ask {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 1.2rem + 1vw, 2rem);
+  line-height: 1.18;
+}
+
+.loop-why {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--muted);
+}
+
+.loop-line {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  padding: 0.95rem 1rem;
+  text-align: left;
+  color: inherit;
+  border-radius: var(--radius-md);
+  border: 1px dashed color-mix(in oklch, var(--py-gold) 55%, white);
+  background: color-mix(in oklch, var(--py-gold) 8%, transparent);
+  cursor: pointer;
+}
+
+.loop-line span {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--py-gold);
+}
+
+.loop-line code {
+  font-size: 1.05rem;
+  color: var(--paper);
+  white-space: pre-wrap;
+}
+
+.loop-stage textarea {
+  min-height: 6.2rem;
+  font-family: var(--font-mono);
+}
+
+.loop-run {
+  width: 100%;
+  justify-content: center;
+}
+
+.loop-screen {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: color-mix(in oklch, black 38%, var(--ink-0));
+}
+
+.loop-screen pre {
+  margin: 0.45rem 0 0;
+  min-height: 4.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--mint);
+}
+
+.loop-ok {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklch, var(--mint) 14%, transparent);
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.loop-help {
+  margin: 0;
+  color: var(--coral);
+}
+
+.loop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.enroll-section {
+  padding: 2.6rem 0 3.2rem;
+}
+
+.enroll-shell {
+  width: 100%;
+  padding: 1.7rem 1.5rem 1.5rem;
+}
+
+.enroll-block {
+  margin: 0 0 1.55rem;
+  padding: 0;
+  border: 0;
+}
+
+.enroll-block legend {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+  padding: 0;
+}
+
+.enroll-actions {
+  margin: 0.4rem 0 0.7rem;
 }
 
 .curve-wrap {
@@ -501,9 +928,16 @@
   .classroom,
   .form-grid,
   .path-steps,
-  .orbit-board,
   .strategy-list {
     grid-template-columns: 1fr;
+  }
+
+  .loop-stations {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .orbit-board {
+    grid-template-columns: 1fr 1fr;
   }
 
   .lab-tracks,
@@ -524,5 +958,27 @@
 
   .lab-track {
     min-height: 0;
+  }
+
+  .log-viewport {
+    height: 18rem;
+  }
+
+  .log-chrome {
+    grid-template-columns: auto 1fr;
+  }
+
+  .log-meta {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .log-cursor,
+  .log-meta::before,
+  .hero-mark-logo,
+  .hero-mark-aura,
+  .hero-mark-ring {
+    animation: none;
   }
 }
