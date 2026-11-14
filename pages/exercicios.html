@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="../css/components/components.css">
   <link rel="stylesheet" href="../css/pages/pages.css">
 </head>
-<body data-page="exercicios" data-root="../">
+<body data-page="exercicios" data-root="../" data-api="http://127.0.0.1:8765">
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
   <div id="app-header"></div>
   <div id="status-bar"></div>
@@ -34,6 +34,17 @@
         <p class="lede">Cada questão reforça um conceito da sala: tipos, fluxo, funções, arquivos, objetos e qualidade. O acerto atualiza XP, tempo e a barra de status.</p>
       </div>
     </header>
+    <section class="card" id="lab-sandbox" aria-labelledby="sandbox-title">
+      <p class="kicker">Ateliê de código</p>
+      <h2 id="sandbox-title" style="font-size:1.35rem">Sandbox Python</h2>
+      <p class="legend">Escreva um trecho curto e execute com o motor da API (Ctrl+Enter). Ideal para testar um print ou um laço antes das questões.</p>
+      <label class="field"><span>Código</span>
+        <textarea id="sandbox-code" rows="6" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea>
+      </label>
+      <p><button class="btn btn-gold" type="button" id="sandbox-run">Executar no servidor</button></p>
+      <p class="kicker">Saída</p>
+      <pre id="sandbox-out" class="loop-screen" style="margin:0">Aguardando execução…</pre>
+    </section>
     <div class="filters" role="toolbar" aria-label="Filtrar por nível">
       <button class="btn btn-gold" type="button" data-filter="todas">Todas</button>
       <button class="btn btn-ghost" type="button" data-filter="iniciante">Iniciante</button>
@@ -43,9 +54,12 @@
     <section class="exercise-list" id="exercise-list" aria-live="polite"></section>
   </main>
   <div id="app-footer"></div>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
   <script src="../js/core/paths.js"></script>
   <script src="../js/core/data.js"></script>
   <script src="../js/core/store.js"></script>
+  <script src="../js/core/python-api.js"></script>
   <script src="../js/core/shell.js"></script>
   <script src="../js/pages/exercicios.js"></script>
 </body>

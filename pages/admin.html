@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel local — PhytonFree</title>
+  <meta name="description" content="Painel de demonstração: matrículas e progresso gravados pelo servidor Python local.">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#10182A">
+  <link rel="icon" href="../assets/brand/python-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../css/foundation/tokens.css">
+  <link rel="stylesheet" href="../css/foundation/base.css">
+  <link rel="stylesheet" href="../css/layout/layout.css">
+  <link rel="stylesheet" href="../css/components/components.css">
+  <link rel="stylesheet" href="../css/pages/pages.css">
+</head>
+<body data-page="admin" data-root="../" data-api="http://127.0.0.1:8765" data-admin-key="phytonfree-local-dev">
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <div id="app-header"></div>
+  <div id="status-bar"></div>
+  <main id="conteudo" class="wrap">
+    <header class="section-head" style="padding-top:2rem">
+      <div>
+        <p class="kicker">Desenvolvimento</p>
+        <h1>Painel do servidor Python</h1>
+        <p class="lede">Visão das matrículas e do progresso sincronizado. Uso local com chave de demonstração.</p>
+      </div>
+    </header>
+    <p id="admin-notice" class="notice" hidden></p>
+    <section class="stat-grid" id="admin-stats" aria-label="Resumo"></section>
+    <section class="section">
+      <h2>Matrículas</h2>
+      <div class="card-grid" id="admin-enrollments"></div>
+    </section>
+    <section class="section">
+      <h2>Progresso por e-mail</h2>
+      <pre id="admin-progress" class="loop-screen"></pre>
+    </section>
+  </main>
+  <div id="app-footer"></div>
+  <script src="../js/core/paths.js"></script>
+  <script src="../js/core/data.js"></script>
+  <script src="../js/core/store.js"></script>
+  <script src="../js/core/python-api.js"></script>
+  <script src="../js/core/shell.js"></script>
+  <script src="../js/pages/admin.js"></script>
+</body>
+</html>

@@ -262,6 +262,15 @@ function mountLearningLoop() {
     });
   }
 
+  async function runWithSkulpt(code) {
+    if (typeof Sk === "undefined") {
+      throw new Error("O Python do navegador (Skulpt) não carregou. Recarregue o site.");
+    }
+    await Sk.misceval.asyncToPromise(() =>
+      Sk.importMainWithBody("aluno", false, asReplSource(code), true)
+    );
+  }
+
   async function runCode(source) {
     if (busy) return;
     const code = source.trim();
@@ -270,19 +279,23 @@ function mountLearningLoop() {
       helpEl.textContent = "A linha sumiu. Clique no recado amarelo para colocá-la de volta.";
       return;
     }
-    if (typeof Sk === "undefined") {
-      out.textContent = "O Python desta página não carregou. Recarregue o site.";
-      return;
-    }
     busy = true;
     out.textContent = "";
     helpEl.hidden = true;
     try {
-      await Sk.misceval.asyncToPromise(() =>
-        Sk.importMainWithBody("aluno", false, asReplSource(code), true)
-      );
-      if (!out.textContent.trim()) {
-        out.textContent = LOOP_STEPS[step].quiet || "Ainda nada. Aperte Rodar esta linha.";
+      const usePython = typeof PhytonAPI !== "undefined" && PhytonAPI.runtime?.ok;
+      if (usePython) {
+        const result = await PhytonAPI.run(code, { repl: true });
+        if (result.ok) {
+          out.textContent = result.stdout || LOOP_STEPS[step].quiet || "Ainda nada. Aperte Rodar esta linha.";
+        } else {
+          out.textContent = result.error || result.stderr || result.stdout || "Erro ao executar.";
+        }
+      } else {
+        await runWithSkulpt(code);
+        if (!out.textContent.trim()) {
+          out.textContent = LOOP_STEPS[step].quiet || "Ainda nada. Aperte Rodar esta linha.";
+        }
       }
       const current = LOOP_STEPS[step];
       if (current.ok(code, out.textContent)) {
@@ -331,11 +344,23 @@ function mountLearningLoop() {
   renderStep();
 }
 
+function refreshLoopEngineLabel() {
+  const el = document.getElementById("loop-engine");
+  if (!el || typeof PhytonAPI === "undefined" || !PhytonAPI.runtime) return;
+  const hint = PhytonAPI.runtime.ok
+    ? "Interpretador real na máquina — o mesmo comportamento do terminal Python."
+    : "Servidor Python offline. Rodando com Skulpt no navegador (inicie: npm run api).";
+  el.textContent = `Motor: ${PhytonAPI.runtime.label}. ${hint}`;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const host = document.getElementById("live-log");
   if (host) mountLog(host, LOG_SCRIPT, MAX_LINES);
   mountLearningLoop();
+  refreshLoopEngineLabel();
 });
+
+window.addEventListener("phytonfree:runtime", () => refreshLoopEngineLabel());
 
 function showEnrollNotice(el, message, ok) {
   el.hidden = false;
@@ -348,7 +373,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const notice = document.getElementById("matricula-notice");
   if (!form || !notice) return;
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
     const password = String(data.get("password") || "");
@@ -387,13 +412,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    Store.register({
+    const enrollPayload = {
       name,
       email,
       password,
       levelStart: String(data.get("levelStart")),
       goal: String(data.get("goal")),
-      hours: String(data.get("hours")),
+      hours: Number(data.get("hours")) || 6,
       phone,
       birth,
       city: String(data.get("city")),
@@ -403,8 +428,20 @@ document.addEventListener("DOMContentLoaded", () => {
       contact: String(data.get("contact")),
       source: String(data.get("source")),
       newsletter: Boolean(data.get("newsletter")),
-    });
-    showEnrollNotice(notice, "Matrícula confirmada neste navegador. Abrindo a área do aluno…", true);
+    };
+    Store.register(enrollPayload);
+    let noticeText = "Matrícula confirmada neste navegador. Abrindo a área do aluno…";
+    if (typeof PhytonAPI !== "undefined") {
+      const server = await PhytonAPI.syncMatricula(enrollPayload);
+      if (server?.ok) {
+        Store.patch((state) => {
+          if (state.student) state.student.serverId = server.id;
+        });
+        await Store.syncProgress();
+        noticeText = "Matrícula salva no navegador e sincronizada com o servidor Python local.";
+      }
+    }
+    showEnrollNotice(notice, noticeText, true);
     window.setTimeout(() => {
       window.location.href = Paths.page("aluno.html");
     }, 800);

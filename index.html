@@ -38,7 +38,7 @@
   }
   </script>
 </head>
-<body data-page="home" data-root="./">
+<body data-page="home" data-root="./" data-api="http://127.0.0.1:8765">
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
   <div id="app-header"></div>
   <div id="status-bar"></div>
@@ -239,6 +239,7 @@
         <p class="loop-now" id="loop-now">Gesto 1 de 4 · Pedir</p>
         <p class="loop-ask" id="loop-ask">Faça a palavra olá aparecer na tela.</p>
         <p class="loop-why" id="loop-why">print é um pedido: mostre isto. As aspas são o recado.</p>
+        <p class="caption" id="loop-engine">Motor: detectando Python…</p>
 
         <button class="loop-line" type="button" id="loop-fill">
           <span>Linha deste gesto — clique se apagar</span>
@@ -408,6 +409,7 @@
   <script src="js/core/paths.js"></script>
   <script src="js/core/data.js"></script>
   <script src="js/core/store.js"></script>
+  <script src="js/core/python-api.js"></script>
   <script src="js/core/shell.js"></script>
   <script src="js/pages/home.js"></script>
 </body>

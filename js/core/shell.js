@@ -44,11 +44,16 @@ function renderStatus() {
   const stats = derive(state);
   const student = state.student;
   const firstName = student ? student.name.split(" ")[0] : "Visitante";
+  const motor =
+    typeof PhytonAPI !== "undefined" && PhytonAPI.runtime
+      ? PhytonAPI.runtime.label
+      : "…";
   const items = [
     ["Aluno", firstName],
     ["Nível", stats.level.label],
     ["XP", String(state.progress.xp)],
     ["Prog.", `${stats.percent}%`],
+    ["Motor", motor],
     ["Seq.", `${state.progress.streak}d`],
     ["Mód.", `${stats.modulesDone}/${PHYTONFREE.modules.length}`],
     ["Aulas", `${stats.doneLessons}/${stats.lessons}`],
@@ -81,7 +86,7 @@ function renderFooter() {
         </div>
         <div>
           <p class="kicker">Percurso</p>
-          <p><a href="${Paths.page("sala.html")}">Sala de aula</a><br><a href="${Paths.page("docs.html")}">Documentação</a><br><a href="${Paths.page("exercicios.html")}">Atividades</a><br><a href="${Paths.page("evolucao.html")}">Curva de evolução</a></p>
+          <p><a href="${Paths.page("sala.html")}">Sala de aula</a><br><a href="${Paths.page("docs.html")}">Documentação</a><br><a href="${Paths.page("exercicios.html")}">Atividades</a><br><a href="${Paths.page("evolucao.html")}">Curva de evolução</a><br><a href="${Paths.page("admin.html")}">Painel Python (dev)</a></p>
         </div>
         <div>
           <p class="kicker">Tipografia</p>
@@ -112,3 +117,4 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.addEventListener("phytonfree:update", () => mountShell());
+window.addEventListener("phytonfree:runtime", () => mountShell());

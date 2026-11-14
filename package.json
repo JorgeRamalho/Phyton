@@ -3,6 +3,8 @@
   "private": true,
   "description": "PhytonFree — portal de estudos em Python",
   "scripts": {
-    "start": "npx --yes serve -l 4173"
+    "start": "npx --yes serve -l 4173",
+    "api": "cd backend && python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8765",
+    "test:api": "cd backend && python -m pytest tests -q"
   }
 }

@@ -39,11 +39,92 @@ const Store = {
     return this.write(state);
   },
 
+  mergeProgress(local, remote) {
+    if (!remote) return local;
+    const merged = { ...local };
+    merged.xp = Math.max(local.xp || 0, remote.xp || 0);
+    merged.minutes = Math.max(local.minutes || 0, remote.minutes || 0);
+    merged.streak = Math.max(local.streak || 0, remote.streak || 0);
+    merged.completedLessons = [...new Set([...(local.completedLessons || []), ...(remote.completedLessons || [])])];
+    merged.completedExercises = [...new Set([...(local.completedExercises || []), ...(remote.completedExercises || [])])];
+    merged.lastVisit = remote.lastVisit || local.lastVisit;
+    merged.currentLessonId = remote.currentLessonId || local.currentLessonId;
+    merged.createdAt = local.createdAt || remote.createdAt || Date.now();
+    return merged;
+  },
+
+  applyServerSession(profile, progress, password, accessToken) {
+    const current = this.read();
+    const mergedProgress = this.mergeProgress(current.progress, progress);
+    if (typeof PhytonAPI !== "undefined" && accessToken) {
+      PhytonAPI.setToken(accessToken);
+    } else if (typeof PhytonAPI !== "undefined" && PhytonAPI.getToken()) {
+      /* mantém token já gravado */
+    }
+    return this.write({
+      student: {
+        id: profile.id || current.student?.id || String(Date.now()),
+        serverId: profile.id,
+        name: profile.name,
+        email: profile.email,
+        password: btoa(password),
+        levelStart: profile.levelStart || profile.level_start || "iniciante",
+        goal: profile.goal || "",
+        hours: Number(profile.hours) || 6,
+        phone: current.student?.phone || "",
+        birth: current.student?.birth || "",
+        city: current.student?.city || "",
+        state: current.student?.state || "",
+        experience: current.student?.experience || "",
+        schedule: current.student?.schedule || "",
+        contact: current.student?.contact || "",
+        source: current.student?.source || "",
+        newsletter: Boolean(current.student?.newsletter),
+        enrolledAt: current.student?.enrolledAt || Date.now(),
+      },
+      progress: mergedProgress,
+    });
+  },
+
+  studentPassword() {
+    const state = this.read();
+    if (!state.student?.password) return null;
+    try {
+      return atob(state.student.password);
+    } catch {
+      return null;
+    }
+  },
+
+  async syncProgress() {
+    if (typeof PhytonAPI === "undefined" || !PhytonAPI.runtime?.ok) return { ok: false, skipped: true };
+    const state = this.read();
+    if (!state.student) return { ok: false, skipped: true };
+    if (PhytonAPI.getToken()) {
+      return PhytonAPI.syncProgress(state.progress);
+    }
+    const password = this.studentPassword();
+    if (!password) return { ok: false, skipped: true };
+    return PhytonAPI.pushProgress({
+      email: state.student.email,
+      password,
+      progress: state.progress,
+    });
+  },
+
+  async pullRemoteProgress(email, password) {
+    if (typeof PhytonAPI === "undefined" || !PhytonAPI.runtime?.ok) return { ok: false, skipped: true };
+    if (PhytonAPI.getToken()) return PhytonAPI.fetchProgressMe();
+    if (!email || !password) return { ok: false, skipped: true };
+    return PhytonAPI.pullProgress(email, password);
+  },
+
   register(payload) {
     const id = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
     return this.write({
       student: {
         id,
+        serverId: payload.serverId || null,
         name: payload.name.trim(),
         email: payload.email.trim().toLowerCase(),
         password: btoa(payload.password),
@@ -90,6 +171,7 @@ const Store = {
   },
 
   logout() {
+    if (typeof PhytonAPI !== "undefined") PhytonAPI.clearToken();
     localStorage.removeItem(STORE_KEY);
     window.dispatchEvent(new CustomEvent("phytonfree:update", { detail: this.empty() }));
   },
@@ -107,7 +189,7 @@ const Store = {
 
   completeLesson(id) {
     const lesson = PHYTONFREE.lessons.find((item) => item.id === id);
-    return this.patch((state) => {
+    const result = this.patch((state) => {
       if (!state.progress.completedLessons.includes(id)) {
         state.progress.completedLessons.push(id);
         state.progress.xp += 50;
@@ -117,16 +199,20 @@ const Store = {
       const next = PHYTONFREE.lessons[index + 1];
       state.progress.currentLessonId = next ? next.id : id;
     });
+    this.syncProgress();
+    return result;
   },
 
   completeExercise(id, xp) {
-    return this.patch((state) => {
+    const result = this.patch((state) => {
       if (!state.progress.completedExercises.includes(id)) {
         state.progress.completedExercises.push(id);
         state.progress.xp += xp;
         state.progress.minutes += 8;
       }
     });
+    this.syncProgress();
+    return result;
   },
 
   setCurrentLesson(id) {

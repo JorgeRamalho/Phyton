@@ -2,16 +2,29 @@
 
 ## Visão
 
-PhytonFree é um site estático em HTML, CSS e JavaScript. Não há bundler nem framework. O servidor de desenvolvimento (`npm start`) apenas serve arquivos. A lógica de aluno e progresso corre no cliente.
+PhytonFree é um site estático em HTML, CSS e JavaScript, opcionalmente acoplado a um **backend Python** (FastAPI). Não há bundler nem framework no front. O servidor de desenvolvimento (`npm start`) apenas serve arquivos. A lógica de aluno e progresso corre no cliente; a API complementa com execução real e cópia de matrícula em JSON.
 
 ```
 Navegador
   ├── Páginas HTML (entrada + pages/)
   ├── CSS em camadas (foundation → layout → components → pages)
-  ├── JS núcleo (paths, data, store, shell)
+  ├── JS núcleo (paths, data, store, python-api, shell)
   ├── JS de conteúdo (docs da linguagem)
   ├── JS por página
+  ├── Skulpt (fallback no navegador)
   └── localStorage  chave phytonfree.aluno.v1
+
+API Python (opcional, porta 8765)
+  ├── GET  /api/health
+  ├── POST /api/run
+  ├── POST /api/matricula
+  ├── POST /api/auth/login
+  ├── POST /api/exercises/check
+  ├── GET  /api/progress/me · POST /api/progress/sync (JWT)
+  ├── POST /api/progress/pull | push (legado com senha)
+  ├── GET  /api/admin/summary
+  ├── backend/data/phytonfree.sqlite
+  └── importação única de enrollments.json / progress.json
 ```
 
 ## Camadas

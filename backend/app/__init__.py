@@ -1,0 +1,1 @@
+"""PhytonFree — API Python para o portal estático."""

@@ -7,7 +7,27 @@ function requireStudent() {
   return state;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+async function tryPullProgress() {
+  const state = Store.read();
+  if (!state.student) return;
+  await PhytonAPI.probe();
+  if (!PhytonAPI.runtime?.ok) return;
+  const password = Store.studentPassword() || "";
+  let remote;
+  if (PhytonAPI.getToken()) {
+    remote = await PhytonAPI.fetchProgressMe();
+  } else if (password) {
+    remote = await Store.pullRemoteProgress(state.student.email, password);
+  } else {
+    return;
+  }
+  if (remote?.ok) {
+    Store.applyServerSession(remote.student, remote.progress, password, remote.access_token);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await tryPullProgress();
   const state = requireStudent();
   if (!state) return;
   const stats = derive(state);
